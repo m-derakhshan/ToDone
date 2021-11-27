@@ -1,6 +1,5 @@
 package m.derakhshan.todone.feature_authentication.presentation.login.composable
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
@@ -113,7 +112,7 @@ fun LoginForm(show: Boolean) {
                 }
                 ClickableText(
                     text = forgetPass,
-                    onClick = { Log.i("Log", "LoginForm: clicked") },
+                    onClick = { viewModel.onEvent(LoginEvent.ForgetPassClicked) },
                     style = TextStyle(color = MaterialTheme.colors.error)
                 )
             }

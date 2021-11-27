@@ -41,6 +41,9 @@ class LoginViewModel @Inject constructor(
                     isPasswordVisible = !_state.value.isPasswordVisible
                 )
             }
+            is LoginEvent.ForgetPassClicked->{
+
+            }
         }
     }
 
