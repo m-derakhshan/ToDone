@@ -27,7 +27,7 @@ import m.derakhshan.todone.ui.theme.VeryLightBlue
 @Composable
 fun ChangeBackground(show: Boolean, color: Color = VeryLightBlue, backListener: () -> Unit) {
     val radius by animateFloatAsState(
-        targetValue = if (show) 1500f else 0f,
+        targetValue = if (show) 1700f else 0f,
         animationSpec = tween(durationMillis = 700)
     )
     Canvas(modifier = Modifier.fillMaxSize(), onDraw = {

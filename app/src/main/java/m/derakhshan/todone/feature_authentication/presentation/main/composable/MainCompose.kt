@@ -1,7 +1,6 @@
 package m.derakhshan.todone.feature_authentication.presentation.main.composable
 
 
-
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -14,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import m.derakhshan.todone.R
+import m.derakhshan.todone.feature_authentication.presentation.login.composable.LoginForm
 import m.derakhshan.todone.feature_authentication.presentation.main.MainEvent
 import m.derakhshan.todone.feature_authentication.presentation.main.MainViewModel
 
@@ -64,5 +64,7 @@ fun MainAuthentication() {
         ChangeBackground(show = state.loginFormIsVisible || state.signUpFormIsVisible) {
             viewModel.onEvent(MainEvent.BackButtonClick)
         }
+
+        LoginForm(show = state.loginFormIsVisible)
     }
 }

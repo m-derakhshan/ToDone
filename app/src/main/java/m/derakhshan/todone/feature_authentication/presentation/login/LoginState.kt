@@ -5,5 +5,6 @@ data class LoginState(
     val username: String = "",
     val password: String = "",
     val isPasswordVisible: Boolean = false,
-    val isLoginButtonExpanded: Boolean = false
+    val isLoginButtonExpanded: Boolean = true,
+    val snackBarMsg: String = ""
 )

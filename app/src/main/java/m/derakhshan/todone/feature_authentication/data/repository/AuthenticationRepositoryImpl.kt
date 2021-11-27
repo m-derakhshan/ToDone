@@ -15,8 +15,21 @@ class AuthenticationRepositoryImpl(
         userDao.insert(user = user)
     }
 
-    override suspend fun login(username: String, password: String): LoginServerResponse {
+    override suspend fun login(
+        username: String, password: String,
+    ): LoginServerResponse {
         delay(5000)
-        return LoginServerResponse.Success("login was successful")
+        userDao.insert(
+            User(
+                token = "What I get from Server",
+                name = "What I get From server",
+                username = username,
+                email = "What I get From server",
+                phone = "What I get From Server"
+            )
+        )
+        return LoginServerResponse.Success("done")
     }
 }
+
+

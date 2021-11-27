@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import m.derakhshan.todone.R
+import m.derakhshan.todone.feature_authentication.presentation.login.LoginEvent
 import m.derakhshan.todone.feature_authentication.presentation.login.LoginViewModel
 
 
@@ -64,8 +65,8 @@ fun LoginForm(show: Boolean) {
                 )
 
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = { "viewModel.setUserName(it)" },
+                    value = state.username,
+                    onValueChange = { viewModel.onEvent(LoginEvent.ChangeUsername(it)) },
                     label = {
                         Text(
                             text = stringResource(
@@ -75,8 +76,8 @@ fun LoginForm(show: Boolean) {
                     })
 
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = { "" },
+                    value = state.password,
+                    onValueChange = { viewModel.onEvent(LoginEvent.ChangePassword(it)) },
                     label = {
                         Text(
                             text = stringResource(
@@ -84,28 +85,26 @@ fun LoginForm(show: Boolean) {
                             )
                         )
                     },
-                    visualTransformation = if (true) VisualTransformation.None else PasswordVisualTransformation(),
+                    visualTransformation =
+                    if (state.isPasswordVisible) VisualTransformation.None
+                    else PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     maxLines = 1,
                     trailingIcon = {
-                        val image = if (passwordVisibility)
+                        val image = if (state.isPasswordVisible)
                             Icons.Filled.Visibility
                         else Icons.Filled.VisibilityOff
 
                         IconButton(onClick = {
-                            passwordVisibility = !passwordVisibility
+                            viewModel.onEvent(LoginEvent.TogglePasswordVisibility)
                         }) {
                             Icon(imageVector = image, "show or hide password")
                         }
                     }
                 )
 
-                val rotation by viewModel.rotateLoadingButton.observeAsState(initial = 0f)
-                val expand by viewModel.expandLoadingButton.observeAsState(initial = true)
-
-
-                LoadingButton(text = R.string.login, rotateDegree = rotation, expand = expand) {
-
+                LoadingButton(text = R.string.login, expand = state.isLoginButtonExpanded) {
+                    viewModel.onEvent(LoginEvent.LoginClicked)
                 }
 
 

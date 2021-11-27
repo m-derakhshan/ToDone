@@ -1,9 +1,7 @@
 package m.derakhshan.todone.feature_authentication.domain.model
 
 
-sealed class LoginServerResponse(msg: String) {
-
-    class Success(msg: String = "") : LoginServerResponse(msg)
-    class Failed(msg: String = "") : LoginServerResponse(msg)
-
+sealed class LoginServerResponse(txt: String) {
+    data class Success(val success: String = "") : LoginServerResponse(success)
+    data class Failed(val error: String = "") : LoginServerResponse(error)
 }
