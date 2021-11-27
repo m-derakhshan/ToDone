@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">ToDone</string>
+    <string name="version">version:1.0.0</string>
+
+    <string name="login">Login</string>
+    <string name="signup">Sing Up</string>
+    <string name="nothing" translatable="false"> </string>
+
+    <string name="welcomeBack">Welcome Back!</string>
+    <string name="joinUs">Join Us!</string>
+
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="forgetPassword">Forget Password?</string>
+
+    <string name="loginEmptyField">username or password can\'t left blank!</string>
+    <string name="loginUsernameOrPassError">username or password is incorrect!</string>
+
+    <string name="signUpEmptyField">All fields are required!</string>
+    <string name="signUpDuplicatedUsername">This username already exist!</string>
+
+    <string name="home">Home</string>
+    <string name="tasks">Tasks</string>
+
+    <string name="good_morning">Good morning,</string>
+    <string name="good_after_noon">Good afternoon,</string>
+    <string name="good_evening">Good evening,</string>
+    <string name="good_night">Good night,</string>
+    <string name="good_mid_night">Good midnight,</string>
+</resources>
