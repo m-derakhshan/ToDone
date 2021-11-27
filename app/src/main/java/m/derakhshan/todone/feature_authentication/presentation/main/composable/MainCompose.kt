@@ -13,16 +13,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import m.derakhshan.todone.R
 import m.derakhshan.todone.feature_authentication.presentation.login.composable.LoginForm
 import m.derakhshan.todone.feature_authentication.presentation.main.MainEvent
 import m.derakhshan.todone.feature_authentication.presentation.main.MainViewModel
+import m.derakhshan.todone.feature_authentication.presentation.sign_up.composable.SignUpForm
 
 @ExperimentalAnimationApi
 @Composable
-fun MainAuthentication() {
-    val viewModel: MainViewModel = viewModel()
+fun MainAuthentication(viewModel: MainViewModel) {
     val state = viewModel.state.value
     Scaffold {
 
@@ -68,5 +67,6 @@ fun MainAuthentication() {
         }
 
         LoginForm(show = state.loginFormIsVisible)
+        SignUpForm(show = state.signUpFormIsVisible)
     }
 }

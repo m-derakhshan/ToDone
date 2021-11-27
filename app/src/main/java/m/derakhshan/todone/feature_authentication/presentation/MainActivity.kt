@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ToDoneTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    MainAuthentication()
+                    MainAuthentication(mainViewModel)
                 }
             }
         }

@@ -1,14 +1,14 @@
-package m.derakhshan.todone.feature_authentication.presentation.login.composable
+package m.derakhshan.todone.feature_authentication.presentation.sign_up.composable
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -18,8 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -27,15 +25,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import m.derakhshan.todone.R
-import m.derakhshan.todone.feature_authentication.presentation.login.LoginEvent
-import m.derakhshan.todone.feature_authentication.presentation.login.LoginViewModel
+import m.derakhshan.todone.feature_authentication.presentation.login.composable.LoadingButton
+import m.derakhshan.todone.feature_authentication.presentation.sign_up.SignUpEvent
+import m.derakhshan.todone.feature_authentication.presentation.sign_up.SignUpViewModel
 
 
 @ExperimentalAnimationApi
 @Composable
-fun LoginForm(show: Boolean) {
+fun SignUpForm(show: Boolean) {
 
-    val viewModel: LoginViewModel = viewModel()
+    val viewModel: SignUpViewModel = viewModel()
     val state = viewModel.state.value
 
     AnimatedVisibility(
@@ -49,13 +48,14 @@ fun LoginForm(show: Boolean) {
     ) {
 
         Column(
-            modifier = Modifier.padding(top = 100.dp),
+            modifier = Modifier
+                .padding(top = 100.dp),
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-
             Text(
-                text = stringResource(id = R.string.welcomeBack),
+                text = stringResource(id = R.string.joinUs),
                 style = MaterialTheme.typography.h6,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -65,18 +65,32 @@ fun LoginForm(show: Boolean) {
 
             OutlinedTextField(
                 value = state.username,
-                onValueChange = { viewModel.onEvent(LoginEvent.ChangeUsername(it)) },
+                onValueChange = { viewModel.onEvent(SignUpEvent.UsernameChanged(it)) },
                 label = {
                     Text(
                         text = stringResource(
                             id = R.string.username
                         )
                     )
-                })
+                },
+            )
+
+            OutlinedTextField(
+                value = state.email,
+                onValueChange = { viewModel.onEvent(SignUpEvent.EmailChanged(it)) },
+                label = {
+                    Text(
+                        text = stringResource(
+                            id = R.string.email
+                        )
+                    )
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            )
 
             OutlinedTextField(
                 value = state.password,
-                onValueChange = { viewModel.onEvent(LoginEvent.ChangePassword(it)) },
+                onValueChange = { viewModel.onEvent(SignUpEvent.PasswordChanged(it)) },
                 label = {
                     Text(
                         text = stringResource(
@@ -95,26 +109,19 @@ fun LoginForm(show: Boolean) {
                     else Icons.Filled.VisibilityOff
 
                     IconButton(onClick = {
-                        viewModel.onEvent(LoginEvent.TogglePasswordVisibility)
+                        viewModel.onEvent(SignUpEvent.TogglePasswordVisibility)
                     }) {
                         Icon(imageVector = image, "show or hide password")
                     }
                 }
             )
 
-            LoadingButton(text = R.string.login, expand = state.isLoginButtonExpanded) {
-                viewModel.onEvent(LoginEvent.LoginClicked)
+            //--------------------(sing up button)--------------------//
+            LoadingButton(text = R.string.signup, expand = state.isLoginButtonExpanded) {
+                viewModel.onEvent(SignUpEvent.SignUpClicked)
             }
+            //--------------------(end of sing up button)--------------------//
 
-
-            val forgetPass = buildAnnotatedString {
-                append(stringResource(id = R.string.forgetPassword))
-            }
-            ClickableText(
-                text = forgetPass,
-                onClick = { viewModel.onEvent(LoginEvent.ForgetPassClicked) },
-                style = TextStyle(color = MaterialTheme.colors.error)
-            )
         }
 
 
