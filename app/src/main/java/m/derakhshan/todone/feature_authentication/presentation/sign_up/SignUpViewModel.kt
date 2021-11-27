@@ -27,13 +27,13 @@ class SignUpViewModel @Inject constructor(
 
             is SignUpEvent.UsernameChanged -> {
                 _state.value = _state.value.copy(
-                    email = event.username
+                    username = event.username
                 )
             }
 
             is SignUpEvent.PasswordChanged -> {
                 _state.value = _state.value.copy(
-                    email = event.password
+                    password = event.password
                 )
             }
             is SignUpEvent.TogglePasswordVisibility -> {
