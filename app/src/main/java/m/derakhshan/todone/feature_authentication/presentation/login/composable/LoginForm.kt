@@ -38,85 +38,83 @@ fun LoginForm(show: Boolean) {
 
     AnimatedVisibility(
         visible = show,
-        enter = slideInVertically(animationSpec = tween(durationMillis = 1000)),
+        enter = slideInVertically(
+            animationSpec = tween(durationMillis = 1000),
+            initialOffsetY = { -it }),
         exit = slideOutVertically(
             animationSpec = tween(durationMillis = 500),
-            targetOffsetY = { -it * 3 / 5 })
+            targetOffsetY = { -it })
     ) {
-        Column(Modifier.fillMaxSize()) {
 
-            Column(
+        Column(
+            modifier = Modifier.padding(top = 100.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+
+            Text(
+                text = stringResource(id = R.string.welcomeBack),
+                style = MaterialTheme.typography.h6,
                 modifier = Modifier
-                    .padding(vertical = 10.dp)
-                    .weight(0.5f),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp),
+                textAlign = TextAlign.Center
+            )
 
-
-                Text(
-                    text = stringResource(id = R.string.welcomeBack),
-                    style = MaterialTheme.typography.h6,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 12.dp),
-                    textAlign = TextAlign.Center
-                )
-
-                OutlinedTextField(
-                    value = state.username,
-                    onValueChange = { viewModel.onEvent(LoginEvent.ChangeUsername(it)) },
-                    label = {
-                        Text(
-                            text = stringResource(
-                                id = R.string.username
-                            )
+            OutlinedTextField(
+                value = state.username,
+                onValueChange = { viewModel.onEvent(LoginEvent.ChangeUsername(it)) },
+                label = {
+                    Text(
+                        text = stringResource(
+                            id = R.string.username
                         )
-                    })
+                    )
+                })
 
-                OutlinedTextField(
-                    value = state.password,
-                    onValueChange = { viewModel.onEvent(LoginEvent.ChangePassword(it)) },
-                    label = {
-                        Text(
-                            text = stringResource(
-                                id = R.string.password
-                            )
+            OutlinedTextField(
+                value = state.password,
+                onValueChange = { viewModel.onEvent(LoginEvent.ChangePassword(it)) },
+                label = {
+                    Text(
+                        text = stringResource(
+                            id = R.string.password
                         )
-                    },
-                    visualTransformation =
-                    if (state.isPasswordVisible) VisualTransformation.None
-                    else PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    maxLines = 1,
-                    trailingIcon = {
-                        val image = if (state.isPasswordVisible)
-                            Icons.Filled.Visibility
-                        else Icons.Filled.VisibilityOff
+                    )
+                },
+                visualTransformation =
+                if (state.isPasswordVisible) VisualTransformation.None
+                else PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                maxLines = 1,
+                trailingIcon = {
+                    val image = if (state.isPasswordVisible)
+                        Icons.Filled.Visibility
+                    else Icons.Filled.VisibilityOff
 
-                        IconButton(onClick = {
-                            viewModel.onEvent(LoginEvent.TogglePasswordVisibility)
-                        }) {
-                            Icon(imageVector = image, "show or hide password")
-                        }
+                    IconButton(onClick = {
+                        viewModel.onEvent(LoginEvent.TogglePasswordVisibility)
+                    }) {
+                        Icon(imageVector = image, "show or hide password")
                     }
-                )
-
-                LoadingButton(text = R.string.login, expand = state.isLoginButtonExpanded) {
-                    viewModel.onEvent(LoginEvent.LoginClicked)
                 }
+            )
 
-
-                val forgetPass = buildAnnotatedString {
-                    append(stringResource(id = R.string.forgetPassword))
-                }
-                ClickableText(
-                    text = forgetPass,
-                    onClick = { viewModel.onEvent(LoginEvent.ForgetPassClicked) },
-                    style = TextStyle(color = MaterialTheme.colors.error)
-                )
+            LoadingButton(text = R.string.login, expand = state.isLoginButtonExpanded) {
+                viewModel.onEvent(LoginEvent.LoginClicked)
             }
+
+
+            val forgetPass = buildAnnotatedString {
+                append(stringResource(id = R.string.forgetPassword))
+            }
+            ClickableText(
+                text = forgetPass,
+                onClick = { viewModel.onEvent(LoginEvent.ForgetPassClicked) },
+                style = TextStyle(color = MaterialTheme.colors.error)
+            )
         }
+
 
     }
 }
