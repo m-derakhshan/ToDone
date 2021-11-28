@@ -25,23 +25,32 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import m.derakhshan.todone.R
+import m.derakhshan.todone.feature_authentication.domain.model.ServerResponse
 import m.derakhshan.todone.feature_authentication.presentation.login.LoginEvent
 import m.derakhshan.todone.feature_authentication.presentation.login.LoginViewModel
+import m.derakhshan.todone.feature_authentication.presentation.sign_up.SignUpEvent
 
 
 @ExperimentalAnimationApi
 @Composable
-fun LoginForm(show: Boolean, snackBarMsg: (String) -> Unit) {
+fun LoginForm(show: Boolean, snackBarMsg: (String, Boolean) -> Unit) {
 
-    val viewModel: LoginViewModel = viewModel()
+    val viewModel: LoginViewModel = hiltViewModel()
     val state = viewModel.state.value
 
-    if (state.snackbarMsg.isNotBlank())
-        snackBarMsg(state.snackbarMsg).also {
-            viewModel.onEvent(LoginEvent.DeleteSnackbar)
-        }
+    state.serverResponse?.let { response ->
+        if (response is ServerResponse.Success)
+            snackBarMsg(response.success, response.code == 200).also {
+                viewModel.onEvent(LoginEvent.DeleteSnackbar)
+            }
+        else if (response is ServerResponse.Failed)
+            snackBarMsg(response.error, response.code == 200).also {
+                viewModel.onEvent(LoginEvent.DeleteSnackbar)
+            }
+    }
 
     AnimatedVisibility(
         visible = show,

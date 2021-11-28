@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import m.derakhshan.todone.feature_authentication.data.data_source.MyDatabase
+import m.derakhshan.todone.core.data.data_source.MyDatabase
 import javax.inject.Singleton
 
 

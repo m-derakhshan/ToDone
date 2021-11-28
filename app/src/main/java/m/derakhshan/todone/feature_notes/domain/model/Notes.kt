@@ -9,10 +9,15 @@ import m.derakhshan.todone.ui.theme.*
 data class Notes(
     @PrimaryKey
     val id: String,
+
     val title: String,
+
     val content: String,
+
     val color: Int,
+
     val timestamp: Long,
+
 ) {
     companion object {
         val noteColors = listOf(

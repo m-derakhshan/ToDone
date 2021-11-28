@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import m.derakhshan.todone.feature_authentication.domain.model.ServerResponse
 import m.derakhshan.todone.feature_authentication.domain.use_case.AuthenticationUseCase
 import javax.inject.Inject
 
@@ -49,9 +48,9 @@ class LoginViewModel @Inject constructor(
 
             }
 
-            is LoginEvent.DeleteSnackbar->{
+            is LoginEvent.DeleteSnackbar -> {
                 _state.value = _state.value.copy(
-                    snackbarMsg = ""
+                    serverResponse = null
                 )
             }
         }
@@ -63,27 +62,16 @@ class LoginViewModel @Inject constructor(
         _state.value = _state.value.copy(
             isLoginButtonExpanded = false
         )
-
         viewModelScope.launch {
-            val response: ServerResponse = useCases.login(
-                username = _state.value.username,
-                password = _state.value.password
+            _state.value = _state.value.copy(
+                serverResponse = useCases.login(
+                    username = _state.value.username,
+                    password = _state.value.password
+                )
             )
-            when (response) {
-                is ServerResponse.Success -> {
-                    _state.value = _state.value.copy(
-                        isLoginButtonExpanded = true,
-                        enterApp = true,
-                        snackbarMsg = response.success
-                    )
-                }
-                is ServerResponse.Failed -> {
-                    _state.value = _state.value.copy(
-                        isLoginButtonExpanded = true,
-                        snackbarMsg = response.error
-                    )
-                }
-            }
+            _state.value = _state.value.copy(
+                isLoginButtonExpanded = true,
+            )
         }
     }
 }

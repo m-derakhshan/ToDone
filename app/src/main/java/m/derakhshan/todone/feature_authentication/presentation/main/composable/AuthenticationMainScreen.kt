@@ -1,7 +1,7 @@
 package m.derakhshan.todone.feature_authentication.presentation.main.composable
 
 
-
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,8 +13,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import m.derakhshan.todone.R
+import m.derakhshan.todone.core.presentation.NavGraph
 import m.derakhshan.todone.feature_authentication.presentation.login.composable.LoginForm
 import m.derakhshan.todone.feature_authentication.presentation.main.MainEvent
 import m.derakhshan.todone.feature_authentication.presentation.main.MainViewModel
@@ -22,10 +25,16 @@ import m.derakhshan.todone.feature_authentication.presentation.sign_up.composabl
 
 @ExperimentalAnimationApi
 @Composable
-fun MainAuthentication(viewModel: MainViewModel) {
+fun AuthenticationMainScreen(
+    navController: NavController
+) {
+
+    val viewModel: MainViewModel = hiltViewModel()
     val state = viewModel.state.value
+
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
+
     Scaffold(scaffoldState = scaffoldState)
     {
         //--------------------(lottie animation)--------------------//
@@ -72,19 +81,35 @@ fun MainAuthentication(viewModel: MainViewModel) {
         }
 
 
-        LoginForm(show = state.loginFormIsVisible) { msg ->
-            scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = msg
-                )
-            }
+        LoginForm(show = state.loginFormIsVisible) { msg, userLoggedIn ->
+            if (userLoggedIn)
+                navController.navigate(NavGraph.MainScreen.route) {
+                    popUpTo(NavGraph.AuthenticationScreen.route) {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
+            else
+                scope.launch {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = msg
+                    )
+                }
         }
-        SignUpForm(show = state.signUpFormIsVisible) { msg ->
-            scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = msg
-                )
-            }
+        SignUpForm(show = state.signUpFormIsVisible) { msg, userSignedUp ->
+            if (userSignedUp)
+                navController.navigate(NavGraph.MainScreen.route) {
+                    popUpTo(NavGraph.AuthenticationScreen.route) {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
+            else
+                scope.launch {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = msg
+                    )
+                }
         }
 
 

@@ -1,6 +1,7 @@
 package m.derakhshan.todone.feature_authentication.data.repository
 
 import kotlinx.coroutines.delay
+import m.derakhshan.todone.core.Setting
 import m.derakhshan.todone.feature_authentication.data.data_source.UserDao
 import m.derakhshan.todone.feature_authentication.domain.model.ServerResponse
 import m.derakhshan.todone.feature_authentication.domain.model.User
@@ -8,7 +9,8 @@ import m.derakhshan.todone.feature_authentication.domain.repository.Authenticati
 
 
 class AuthenticationRepositoryImpl(
-    private val userDao: UserDao
+    private val userDao: UserDao,
+    private val setting: Setting
 ) : AuthenticationRepository {
 
     override suspend fun insertUser(user: User) {
@@ -38,7 +40,8 @@ class AuthenticationRepositoryImpl(
                 phone = "What I get From Server"
             )
         )
-        return ServerResponse.Success("login was successful.")
+        setting.isUserLoggedIn = true
+        return ServerResponse.Success("login was successful.", 200)
     }
 
     override suspend fun signUp(username: String, password: String, email: String): ServerResponse {
@@ -69,7 +72,8 @@ class AuthenticationRepositoryImpl(
                 phone = "What I get From Server"
             )
         )
-        return ServerResponse.Success("user successfully registered.")
+        setting.isUserLoggedIn = true
+        return ServerResponse.Success("user successfully registered.", 200)
     }
 }
 

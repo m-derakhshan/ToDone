@@ -21,7 +21,9 @@
     <string name="signUpDuplicatedUsername">This username already exist!</string>
 
     <string name="home">Home</string>
-    <string name="tasks">Tasks</string>
+    <string name="task_list">Task List</string>
+    <string name="note_list">Note List</string>
+    <string name="profile">Profile</string>
 
     <string name="good_morning">Good morning,</string>
     <string name="good_after_noon">Good afternoon,</string>

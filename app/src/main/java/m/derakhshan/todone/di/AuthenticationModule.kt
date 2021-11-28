@@ -5,7 +5,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
-import m.derakhshan.todone.feature_authentication.data.data_source.MyDatabase
+import m.derakhshan.todone.core.Setting
+import m.derakhshan.todone.core.data.data_source.MyDatabase
 import m.derakhshan.todone.feature_authentication.data.repository.AuthenticationRepositoryImpl
 import m.derakhshan.todone.feature_authentication.domain.repository.AuthenticationRepository
 import m.derakhshan.todone.feature_authentication.domain.use_case.AuthenticationUseCase
@@ -18,8 +19,12 @@ import m.derakhshan.todone.feature_authentication.domain.use_case.SignUp
 object AuthenticationModule {
 
     @Provides
-    fun authenticationRepository(db: MyDatabase): AuthenticationRepository {
-        return AuthenticationRepositoryImpl(userDao = db.userDao)
+    fun authenticationRepository(db: MyDatabase, setting: Setting): AuthenticationRepository {
+        return AuthenticationRepositoryImpl(
+            userDao = db.userDao,
+            setting = setting
+        )
+
     }
 
     @Provides

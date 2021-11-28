@@ -23,10 +23,6 @@ class SignUpViewModel @Inject constructor(
 
     fun onEvent(event: SignUpEvent) {
 
-        _state.value = _state.value.copy(
-            snackbarMsg = ""
-        )
-
         when (event) {
             is SignUpEvent.EmailChanged -> {
                 _state.value = _state.value.copy(
@@ -56,9 +52,9 @@ class SignUpViewModel @Inject constructor(
                 signUp()
             }
 
-            is SignUpEvent.DeleteSnackbar->{
+            is SignUpEvent.DeleteSnackbar -> {
                 _state.value = _state.value.copy(
-                    snackbarMsg = ""
+                    serverResponse = null
                 )
             }
         }
@@ -70,32 +66,14 @@ class SignUpViewModel @Inject constructor(
             isSignUpButtonExpanded = false
         )
         viewModelScope.launch {
-            val response: ServerResponse = useCase.signUp(
-                username = _state.value.username,
-                password = _state.value.password,
-                email = _state.value.email
+            _state.value = _state.value.copy(
+                serverResponse = useCase.signUp(
+                    username = _state.value.username,
+                    password = _state.value.password,
+                    email = _state.value.email
+                ),
+                isSignUpButtonExpanded = true
             )
-            when (response) {
-                is ServerResponse.Success -> {
-                    _state.value = _state.value.copy(
-                        isSignUpButtonExpanded = true
-                    )
-
-                    _state.value = _state.value.copy(
-                        snackbarMsg = response.success,
-                        enterApp = true
-                    )
-                }
-                is ServerResponse.Failed -> {
-                    _state.value = _state.value.copy(
-                        isSignUpButtonExpanded = true
-                    )
-
-                    _state.value = _state.value.copy(
-                        snackbarMsg = response.error
-                    )
-                }
-            }
         }
     }
 }
