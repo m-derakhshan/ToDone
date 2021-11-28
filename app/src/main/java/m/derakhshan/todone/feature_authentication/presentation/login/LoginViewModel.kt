@@ -9,7 +9,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import m.derakhshan.todone.feature_authentication.domain.model.ServerResponse
 import m.derakhshan.todone.feature_authentication.domain.use_case.AuthenticationUseCase
-import m.derakhshan.todone.feature_authentication.presentation.sign_up.SignUpEvent
 import javax.inject.Inject
 
 @HiltViewModel

@@ -36,7 +36,10 @@ val LightRed = Color(0xFFFF7BA8)
 val VeryLightRed = Color(0xFFFFDAE6)
 
 val Orange = Color(0xFFFF5722)
+val LightOrange = Color(0xFFFF9371)
 
 val Yellow = Color(0xFFFFC107)
+val LightYellow = Color(0xFFFFDD75)
 
 val Purple = Color(0xFF9C27B0)
+val LightPurple = Color(0xFFEF91FF)
