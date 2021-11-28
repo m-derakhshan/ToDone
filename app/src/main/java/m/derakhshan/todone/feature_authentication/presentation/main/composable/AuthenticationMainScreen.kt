@@ -3,6 +3,7 @@ package m.derakhshan.todone.feature_authentication.presentation.main.composable
 
 import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
@@ -16,6 +17,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,8 +31,7 @@ import m.derakhshan.todone.feature_authentication.presentation.login.composable.
 import m.derakhshan.todone.feature_authentication.presentation.main.MainEvent
 import m.derakhshan.todone.feature_authentication.presentation.main.MainViewModel
 import m.derakhshan.todone.feature_authentication.presentation.sign_up.composable.SignUpForm
-import m.derakhshan.todone.ui.theme.DarkBlue
-import m.derakhshan.todone.ui.theme.LightGray
+import m.derakhshan.todone.ui.theme.*
 
 @ExperimentalAnimationApi
 @Composable
@@ -52,7 +55,7 @@ fun AuthenticationMainScreen(
             orientation = Orientation.Horizontal,
             state = rememberDraggableState { delta ->
                 if (state.signUpFormIsVisible || state.loginFormIsVisible)
-                        offset += (delta * 0.2f)
+                    offset += (delta * 0.2f)
             }, onDragStopped = {
                 if (offset > 100)
                     viewModel.onEvent(MainEvent.BackButtonClick)
@@ -140,8 +143,24 @@ fun AuthenticationMainScreen(
         }
 
 
+        Canvas(modifier = Modifier.fillMaxSize(), onDraw = {
+            val path = Path().apply {
+                moveTo(0.0f, 0.0f)
+                lineTo(offset, size.height / 2f)
+                lineTo(0f, size.height)
+            }
+            drawIntoCanvas { canvas ->
+                canvas.drawOutline(
+                    outline = Outline.Generic(path = path),
+                    paint = Paint().apply {
+                        color = LightBlue
+                        pathEffect = PathEffect.cornerPathEffect(size.height / 2)
+                    }
+                )
+            }
+        })
+
         //--------------------(arrow back for swipe gesture)--------------------//
-        Log.i("Log", "AuthenticationMainScreen: offset is $offset")
         Column(
             modifier = Modifier.fillMaxHeight(),
             verticalArrangement = Arrangement.Center
@@ -149,13 +168,10 @@ fun AuthenticationMainScreen(
             Icon(
                 imageVector = Icons.Filled.ArrowBackIosNew,
                 contentDescription = "Back",
-                tint = DarkBlue,
+                tint = White,
                 modifier = Modifier
-                    .offset(x = (-100 + offset).dp, 0.dp)
+                    .offset(x = (-50 + offset*0.3 ).dp, 0.dp)
                     .width(40.dp)
-                    .clip(CircleShape)
-                    .background(LightGray)
-                    .padding(10.dp)
             )
         }
 
