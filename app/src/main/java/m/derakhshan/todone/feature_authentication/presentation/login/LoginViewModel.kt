@@ -1,14 +1,15 @@
 package m.derakhshan.todone.feature_authentication.presentation.login
 
-import android.util.Log
+
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import m.derakhshan.todone.feature_authentication.domain.model.LoginServerResponse
+import m.derakhshan.todone.feature_authentication.domain.model.ServerResponse
 import m.derakhshan.todone.feature_authentication.domain.use_case.AuthenticationUseCase
+import m.derakhshan.todone.feature_authentication.presentation.sign_up.SignUpEvent
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,28 +22,38 @@ class LoginViewModel @Inject constructor(
 
 
     fun onEvent(event: LoginEvent) {
-
         when (event) {
+
             is LoginEvent.LoginClicked -> {
                 doLogin()
             }
+
             is LoginEvent.ChangeUsername -> {
                 _state.value = _state.value.copy(
                     username = event.username
                 )
             }
+
             is LoginEvent.ChangePassword -> {
                 _state.value = _state.value.copy(
                     password = event.password
                 )
             }
+
             is LoginEvent.TogglePasswordVisibility -> {
                 _state.value = _state.value.copy(
                     isPasswordVisible = !_state.value.isPasswordVisible
                 )
             }
-            is LoginEvent.ForgetPassClicked->{
 
+            is LoginEvent.ForgetPassClicked -> {
+
+            }
+
+            is LoginEvent.DeleteSnackbar->{
+                _state.value = _state.value.copy(
+                    snackbarMsg = ""
+                )
             }
         }
     }
@@ -55,22 +66,23 @@ class LoginViewModel @Inject constructor(
         )
 
         viewModelScope.launch {
-            val loginServerResponse: LoginServerResponse = useCases.login(
+            val response: ServerResponse = useCases.login(
                 username = _state.value.username,
                 password = _state.value.password
             )
-            when (loginServerResponse) {
-                is LoginServerResponse.Success -> {
+            when (response) {
+                is ServerResponse.Success -> {
                     _state.value = _state.value.copy(
-                        isLoginButtonExpanded = true
+                        isLoginButtonExpanded = true,
+                        enterApp = true,
+                        snackbarMsg = response.success
                     )
-                    Log.i("Log", "doLogin: snackbar txt is ${loginServerResponse.success}")
                 }
-                is LoginServerResponse.Failed -> {
+                is ServerResponse.Failed -> {
                     _state.value = _state.value.copy(
-                        isLoginButtonExpanded = true
+                        isLoginButtonExpanded = true,
+                        snackbarMsg = response.error
                     )
-                    Log.i("Log", "doLogin: snackbar txt is ${loginServerResponse.error}")
                 }
             }
         }

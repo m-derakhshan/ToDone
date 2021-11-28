@@ -1,18 +1,19 @@
 package m.derakhshan.todone.feature_authentication.presentation.main.composable
 
 
+
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import m.derakhshan.todone.R
 import m.derakhshan.todone.feature_authentication.presentation.login.composable.LoginForm
 import m.derakhshan.todone.feature_authentication.presentation.main.MainEvent
@@ -23,8 +24,10 @@ import m.derakhshan.todone.feature_authentication.presentation.sign_up.composabl
 @Composable
 fun MainAuthentication(viewModel: MainViewModel) {
     val state = viewModel.state.value
-    Scaffold {
-
+    val scope = rememberCoroutineScope()
+    val scaffoldState = rememberScaffoldState()
+    Scaffold(scaffoldState = scaffoldState)
+    {
         //--------------------(lottie animation)--------------------//
         RoundedTriangle(modifier = Modifier.fillMaxSize())
         LottieWelcome()
@@ -38,7 +41,9 @@ fun MainAuthentication(viewModel: MainViewModel) {
         ) {
             if (!state.signUpFormIsVisible && !state.loginFormIsVisible) {
                 Button(
-                    onClick = { viewModel.onEvent(event = MainEvent.LoginButtonClick) },
+                    onClick = {
+                        viewModel.onEvent(event = MainEvent.LoginButtonClick)
+                    },
                     modifier = Modifier
                         .padding(10.dp)
                         .weight(0.5f)
@@ -66,7 +71,22 @@ fun MainAuthentication(viewModel: MainViewModel) {
             viewModel.onEvent(MainEvent.BackButtonClick)
         }
 
-        LoginForm(show = state.loginFormIsVisible)
-        SignUpForm(show = state.signUpFormIsVisible)
+
+        LoginForm(show = state.loginFormIsVisible) { msg ->
+            scope.launch {
+                scaffoldState.snackbarHostState.showSnackbar(
+                    message = msg
+                )
+            }
+        }
+        SignUpForm(show = state.signUpFormIsVisible) { msg ->
+            scope.launch {
+                scaffoldState.snackbarHostState.showSnackbar(
+                    message = msg
+                )
+            }
+        }
+
+
     }
 }

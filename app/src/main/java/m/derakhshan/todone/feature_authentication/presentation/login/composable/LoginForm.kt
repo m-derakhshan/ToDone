@@ -33,10 +33,15 @@ import m.derakhshan.todone.feature_authentication.presentation.login.LoginViewMo
 
 @ExperimentalAnimationApi
 @Composable
-fun LoginForm(show: Boolean) {
+fun LoginForm(show: Boolean, snackBarMsg: (String) -> Unit) {
 
     val viewModel: LoginViewModel = viewModel()
     val state = viewModel.state.value
+
+    if (state.snackbarMsg.isNotBlank())
+        snackBarMsg(state.snackbarMsg).also {
+            viewModel.onEvent(LoginEvent.DeleteSnackbar)
+        }
 
     AnimatedVisibility(
         visible = show,

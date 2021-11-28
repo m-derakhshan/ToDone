@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import m.derakhshan.todone.R
+import m.derakhshan.todone.feature_authentication.presentation.login.LoginEvent
 import m.derakhshan.todone.feature_authentication.presentation.login.composable.LoadingButton
 import m.derakhshan.todone.feature_authentication.presentation.sign_up.SignUpEvent
 import m.derakhshan.todone.feature_authentication.presentation.sign_up.SignUpViewModel
@@ -32,10 +33,15 @@ import m.derakhshan.todone.feature_authentication.presentation.sign_up.SignUpVie
 
 @ExperimentalAnimationApi
 @Composable
-fun SignUpForm(show: Boolean) {
+fun SignUpForm(show: Boolean, snackBarMsg: (String) -> Unit) {
 
     val viewModel: SignUpViewModel = viewModel()
     val state = viewModel.state.value
+
+    if (state.snackbarMsg.isNotBlank())
+        snackBarMsg(state.snackbarMsg).also {
+            viewModel.onEvent(SignUpEvent.DeleteSnackbar)
+        }
 
     AnimatedVisibility(
         visible = show,
@@ -117,7 +123,7 @@ fun SignUpForm(show: Boolean) {
             )
 
             //--------------------(sing up button)--------------------//
-            LoadingButton(text = R.string.signup, expand = state.isLoginButtonExpanded) {
+            LoadingButton(text = R.string.signup, expand = state.isSignUpButtonExpanded) {
                 viewModel.onEvent(SignUpEvent.SignUpClicked)
             }
             //--------------------(end of sing up button)--------------------//

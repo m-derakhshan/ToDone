@@ -5,5 +5,7 @@ data class SignUpState(
     val password: String = "",
     val email: String = "",
     val isPasswordVisible: Boolean = false,
-    val isLoginButtonExpanded: Boolean = true,
+    val isSignUpButtonExpanded: Boolean = true,
+    val snackbarMsg: String = "",
+    val enterApp: Boolean = false
 )
