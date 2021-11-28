@@ -1,7 +1,9 @@
 package m.derakhshan.todone.feature_home.presentation.composable
 
-import android.graphics.fonts.FontStyle
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -17,7 +19,11 @@ fun Home() {
     val viewModel: HomeViewModel = hiltViewModel()
     val state: HomeState = viewModel.state.value
 
+
+
     Scaffold { padding ->
+
+        //--------------------(clock and greetings)--------------------//
         Column(modifier = Modifier.padding(padding)) {
             Text(
                 text = stringResource(id = state.greetings),

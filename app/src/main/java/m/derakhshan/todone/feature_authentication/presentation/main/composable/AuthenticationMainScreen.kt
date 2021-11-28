@@ -1,18 +1,21 @@
 package m.derakhshan.todone.feature_authentication.presentation.main.composable
 
 
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,6 +27,8 @@ import m.derakhshan.todone.feature_authentication.presentation.login.composable.
 import m.derakhshan.todone.feature_authentication.presentation.main.MainEvent
 import m.derakhshan.todone.feature_authentication.presentation.main.MainViewModel
 import m.derakhshan.todone.feature_authentication.presentation.sign_up.composable.SignUpForm
+import m.derakhshan.todone.ui.theme.DarkBlue
+import m.derakhshan.todone.ui.theme.LightGray
 
 @ExperimentalAnimationApi
 @Composable
@@ -37,8 +42,27 @@ fun AuthenticationMainScreen(
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
 
-    Scaffold(scaffoldState = scaffoldState)
+
+    var offset by remember { mutableStateOf(0f) }
+
+
+    Scaffold(
+        scaffoldState = scaffoldState,
+        modifier = Modifier.draggable(
+            orientation = Orientation.Horizontal,
+            state = rememberDraggableState { delta ->
+                if (state.signUpFormIsVisible || state.loginFormIsVisible)
+                        offset += (delta * 0.2f)
+            }, onDragStopped = {
+                if (offset > 100)
+                    viewModel.onEvent(MainEvent.BackButtonClick)
+                offset = 0f
+            }
+        )
+    )
     {
+
+
         //--------------------(lottie animation)--------------------//
         RoundedTriangle(modifier = Modifier.fillMaxSize())
         LottieWelcome()
@@ -98,6 +122,7 @@ fun AuthenticationMainScreen(
                     )
                 }
         }
+
         SignUpForm(show = state.signUpFormIsVisible) { msg, userSignedUp ->
             if (userSignedUp)
                 navController.navigate(NavGraph.MainScreen.route) {
@@ -115,5 +140,26 @@ fun AuthenticationMainScreen(
         }
 
 
+        //--------------------(arrow back for swipe gesture)--------------------//
+        Log.i("Log", "AuthenticationMainScreen: offset is $offset")
+        Column(
+            modifier = Modifier.fillMaxHeight(),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = Icons.Filled.ArrowBackIosNew,
+                contentDescription = "Back",
+                tint = DarkBlue,
+                modifier = Modifier
+                    .offset(x = (-100 + offset).dp, 0.dp)
+                    .width(40.dp)
+                    .clip(CircleShape)
+                    .background(LightGray)
+                    .padding(10.dp)
+            )
+        }
+
+
     }
 }
+
