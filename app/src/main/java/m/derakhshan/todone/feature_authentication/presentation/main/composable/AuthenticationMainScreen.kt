@@ -26,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import m.derakhshan.todone.R
+import m.derakhshan.todone.core.presentation.BackSwipeGesture
 import m.derakhshan.todone.core.presentation.NavGraph
 import m.derakhshan.todone.feature_authentication.presentation.login.composable.LoginForm
 import m.derakhshan.todone.feature_authentication.presentation.main.MainEvent
@@ -142,40 +143,8 @@ fun AuthenticationMainScreen(
                 }
         }
 
-
-        Canvas(modifier = Modifier.fillMaxSize(), onDraw = {
-            val path = Path().apply {
-                moveTo(0.0f, 0.0f)
-                lineTo(offset, size.height / 2f)
-                lineTo(0f, size.height)
-            }
-            drawIntoCanvas { canvas ->
-                canvas.drawOutline(
-                    outline = Outline.Generic(path = path),
-                    paint = Paint().apply {
-                        color = LightBlue
-                        pathEffect = PathEffect.cornerPathEffect(size.height / 2)
-                    }
-                )
-            }
-        })
-
-        //--------------------(arrow back for swipe gesture)--------------------//
-        Column(
-            modifier = Modifier.fillMaxHeight(),
-            verticalArrangement = Arrangement.Center
-        ) {
-            Icon(
-                imageVector = Icons.Filled.ArrowBackIosNew,
-                contentDescription = "Back",
-                tint = White,
-                modifier = Modifier
-                    .offset(x = (-50 + offset*0.3 ).dp, 0.dp)
-                    .width(40.dp)
-            )
-        }
-
-
+        BackSwipeGesture(offset = offset)
     }
 }
+
 
