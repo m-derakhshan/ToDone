@@ -10,17 +10,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ToDone">
+
         <activity
-            android:name=".feature_authentication.presentation.MainActivity"
+            android:name=".core.WarmUpActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.ToDone.NoActionBar">
+            android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <activity
+            android:name=".feature_authentication.presentation.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.ToDone.NoActionBar"/>
+
     </application>
 
 </manifest>

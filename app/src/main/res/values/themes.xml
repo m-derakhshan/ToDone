@@ -19,6 +19,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="SplashScreenTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/cold_start</item>
+    </style>
+
     <style name="Theme.ToDone.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.ToDone.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
