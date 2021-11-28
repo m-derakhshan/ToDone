@@ -13,8 +13,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import m.derakhshan.todone.feature_home.presentation.composable.Home
 import m.derakhshan.todone.feature_main.presentation.MainNavGraph
 import m.derakhshan.todone.feature_notes.presentation.note_list.NoteList
+import m.derakhshan.todone.feature_profile.presentation.composable.Profile
 
 
 @Composable
@@ -49,15 +51,15 @@ fun MainScreen() {
                 }
             }
         }
-    ) {
+    ) { padding ->
 
         NavHost(
             navController = navController,
             startDestination = MainNavGraph.Home.route,
-            modifier = Modifier.padding(it)
+            modifier = Modifier.padding(padding)
         ) {
             composable(MainNavGraph.Home.route) {
-                NoteList(navController = navController)
+                Home()
             }
             composable(MainNavGraph.TaskList.route) {
                 NoteList(navController = navController)
@@ -66,7 +68,7 @@ fun MainScreen() {
                 NoteList(navController = navController)
             }
             composable(MainNavGraph.Profile.route) {
-                NoteList(navController = navController)
+                Profile(Modifier.padding(padding))
             }
         }
     }
