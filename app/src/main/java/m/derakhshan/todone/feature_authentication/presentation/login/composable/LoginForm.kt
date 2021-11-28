@@ -26,12 +26,10 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import m.derakhshan.todone.R
 import m.derakhshan.todone.feature_authentication.domain.model.ServerResponse
 import m.derakhshan.todone.feature_authentication.presentation.login.LoginEvent
 import m.derakhshan.todone.feature_authentication.presentation.login.LoginViewModel
-import m.derakhshan.todone.feature_authentication.presentation.sign_up.SignUpEvent
 
 
 @ExperimentalAnimationApi

@@ -10,8 +10,8 @@ import m.derakhshan.todone.R
 
 sealed class MainNavGraph(
     val route: String,
-    val resourceID: Int? = null,
-    val icon: ImageVector? = null
+    val resourceID: Int,
+    val icon: ImageVector
 ) {
     object Home : MainNavGraph(
         route = "Home",

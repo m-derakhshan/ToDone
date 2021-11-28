@@ -6,9 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import m.derakhshan.todone.feature_authentication.domain.model.ServerResponse
 import m.derakhshan.todone.feature_authentication.domain.use_case.AuthenticationUseCase
-import m.derakhshan.todone.feature_authentication.presentation.login.LoginEvent
 import javax.inject.Inject
 
 

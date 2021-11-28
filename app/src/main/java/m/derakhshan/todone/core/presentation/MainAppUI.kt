@@ -1,6 +1,5 @@
 package m.derakhshan.todone.core.presentation
 
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
@@ -12,7 +11,6 @@ import androidx.navigation.compose.rememberNavController
 import m.derakhshan.todone.core.Setting
 import m.derakhshan.todone.feature_authentication.presentation.main.composable.AuthenticationMainScreen
 import m.derakhshan.todone.feature_main.presentation.composable.MainScreen
-import javax.inject.Inject
 
 
 @ExperimentalAnimationApi
