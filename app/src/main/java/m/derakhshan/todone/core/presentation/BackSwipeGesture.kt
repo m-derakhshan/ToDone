@@ -1,5 +1,6 @@
 package m.derakhshan.todone.core.presentation
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -16,6 +17,7 @@ import m.derakhshan.todone.ui.theme.White
 
 @Composable
 fun BackSwipeGesture(offset: Float) {
+
     Canvas(modifier = Modifier.fillMaxSize(), onDraw = {
         val path = Path().apply {
             moveTo(0.0f, 0.0f)
@@ -34,6 +36,7 @@ fun BackSwipeGesture(offset: Float) {
     })
 
     //--------------------(arrow back for swipe gesture)--------------------//
+    var lastOffset: Double = 0.0
     Column(
         modifier = Modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.Center
@@ -43,7 +46,8 @@ fun BackSwipeGesture(offset: Float) {
             contentDescription = "Back",
             tint = White,
             modifier = Modifier
-                .offset(x = (-50 + offset * 0.3).dp, 0.dp)
+                .offset(
+                    x = (-50 + offset * 0.35).dp, 0.dp)
                 .width(40.dp)
         )
     }
