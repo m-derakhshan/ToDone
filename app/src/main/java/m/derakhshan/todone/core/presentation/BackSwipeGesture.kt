@@ -1,6 +1,5 @@
 package m.derakhshan.todone.core.presentation
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -36,7 +35,6 @@ fun BackSwipeGesture(offset: Float) {
     })
 
     //--------------------(arrow back for swipe gesture)--------------------//
-    var lastOffset: Double = 0.0
     Column(
         modifier = Modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.Center

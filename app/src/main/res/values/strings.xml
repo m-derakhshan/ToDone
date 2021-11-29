@@ -30,5 +30,8 @@
     <string name="good_evening">Good evening,</string>
     <string name="good_night">Good night,</string>
     <string name="good_mid_night">Good midnight,</string>
+
     <string name="exit">exit</string>
+    <string name="note_deleted">Note has been deleted.</string>
+
 </resources>

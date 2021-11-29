@@ -26,7 +26,7 @@ object NoteModule {
     @ViewModelScoped
     fun provideNoteUseCase(repository: NoteRepository): NoteUseCase {
         return NoteUseCase(
-            editNote = EditNote(repository = repository),
+            getNoteByID = GetNoteByID(repository = repository),
             insertNote = InsertNote(repository = repository),
             getNotes = GetNotes(repository = repository),
             deleteNote = DeleteNote(repository = repository)

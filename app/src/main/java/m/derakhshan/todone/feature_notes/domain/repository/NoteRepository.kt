@@ -12,5 +12,5 @@ interface NoteRepository {
 
     fun getNotes(): Flow<List<Notes>>
 
-    suspend fun getNoteById(id: Int): Notes?
+    suspend fun getNoteById(id: String): Notes?
 }

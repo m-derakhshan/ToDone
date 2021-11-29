@@ -15,7 +15,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import m.derakhshan.todone.feature_home.presentation.composable.Home
 import m.derakhshan.todone.feature_main.presentation.MainNavGraph
-import m.derakhshan.todone.feature_notes.presentation.note_list.NoteList
+import m.derakhshan.todone.feature_notes.presentation.note_list.composable.Notes
 import m.derakhshan.todone.feature_profile.presentation.composable.Profile
 
 
@@ -56,16 +56,14 @@ fun MainScreen() {
         NavHost(
             navController = navController,
             startDestination = MainNavGraph.Home.route,
-            modifier = Modifier.padding(padding)
         ) {
             composable(MainNavGraph.Home.route) {
                 Home()
             }
             composable(MainNavGraph.TaskList.route) {
-                NoteList(navController = navController)
             }
             composable(MainNavGraph.NoteList.route) {
-                NoteList(navController = navController)
+                Notes(Modifier.padding(padding))
             }
             composable(MainNavGraph.Profile.route) {
                 Profile(Modifier.padding(padding))
