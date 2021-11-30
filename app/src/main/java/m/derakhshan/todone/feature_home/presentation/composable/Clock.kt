@@ -63,11 +63,11 @@ fun Clock(clock: HomeClock, modifier: Modifier = Modifier) {
                     color = clockSecondHandColor,
                     topLeft = Offset(
                         x = size.width / 2f,
-                        size.height / 2 - size.minDimension / 2.0f
+                        size.height / 2 - size.minDimension / 2.5f
                     ),
                     size = Size(
                         width = size.minDimension / 100f,
-                        height = size.height / 2.00f
+                        height = size.height / 2.50f
                     ),
                 )
             }
