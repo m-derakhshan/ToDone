@@ -18,6 +18,7 @@ data class Notes(
 
     val timestamp: Long,
 
+    val isVisible: Boolean = false
 ) {
     companion object {
         val noteColors = listOf(

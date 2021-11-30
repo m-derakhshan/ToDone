@@ -1,6 +1,7 @@
 package m.derakhshan.todone.core.presentation
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -12,7 +13,7 @@ import m.derakhshan.todone.core.Setting
 import m.derakhshan.todone.feature_authentication.presentation.main.composable.AuthenticationMainScreen
 import m.derakhshan.todone.feature_main.presentation.composable.MainScreen
 
-
+@ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
 fun MainAppUI(setting: Setting) {

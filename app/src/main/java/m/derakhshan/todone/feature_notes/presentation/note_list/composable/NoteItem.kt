@@ -35,7 +35,7 @@ fun NoteItem(
     onDelete: () -> Unit
 ) {
 
-    Box(modifier = modifier.padding(top = 16.dp, bottom = 8.dp)) {
+    Box(modifier = modifier) {
         Canvas(modifier = Modifier.matchParentSize(), onDraw = {
             val cutPath = Path().apply {
                 lineTo(x = size.width - cutCornerSize.toPx(), y = 0f)

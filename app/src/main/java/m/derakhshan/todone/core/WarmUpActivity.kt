@@ -4,8 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
-import m.derakhshan.todone.feature_authentication.presentation.MainActivity
+import androidx.compose.foundation.ExperimentalFoundationApi
+import m.derakhshan.todone.core.presentation.MainActivity
 
+@ExperimentalFoundationApi
 @ExperimentalAnimationApi
 class WarmUpActivity : AppCompatActivity() {
 

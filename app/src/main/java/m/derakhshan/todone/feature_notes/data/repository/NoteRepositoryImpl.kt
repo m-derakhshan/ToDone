@@ -1,5 +1,6 @@
 package m.derakhshan.todone.feature_notes.data.repository
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import m.derakhshan.todone.feature_notes.data.data_source.NoteDao
 import m.derakhshan.todone.feature_notes.domain.model.Notes
@@ -11,8 +12,8 @@ class NoteRepositoryImpl(private val dao: NoteDao) : NoteRepository {
         dao.insert(note = note)
     }
 
-    override suspend fun delete(note: Notes) {
-        dao.delete(note = note)
+    override suspend fun delete(note:Notes) {
+        dao.delete(note)
     }
 
     override fun getNotes(): Flow<List<Notes>> {

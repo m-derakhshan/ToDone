@@ -1,7 +1,10 @@
 package m.derakhshan.todone.feature_notes.presentation.note_list.composable
 
-import android.util.Log
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,6 +27,8 @@ import m.derakhshan.todone.feature_notes.presentation.note_list.NoteListViewMode
 import m.derakhshan.todone.ui.theme.Blue
 import m.derakhshan.todone.ui.theme.White
 
+@ExperimentalAnimationApi
+@ExperimentalFoundationApi
 @Composable
 fun NoteListScreen(
     modifier: Modifier = Modifier,
@@ -34,6 +39,7 @@ fun NoteListScreen(
     val state = viewModel.state.value
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+
 
     Scaffold(
         modifier = modifier,
@@ -54,25 +60,35 @@ fun NoteListScreen(
     )
     {
         val deletedNoteMsg = stringResource(id = R.string.note_deleted)
-        LazyColumn(modifier = Modifier.padding(horizontal = 16.dp)) {
+        LazyColumn(
+            modifier = Modifier.padding(horizontal = 16.dp)
+        ) {
             items(state.notes) { note ->
-                NoteItem(note = note, modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        //--------------------(navigate to note page)--------------------//
-                    }) {
-                    viewModel.onEvent(NoteListEvent.DeleteClicked(note))
-                    scope.launch {
-                        val result = scaffoldState.snackbarHostState.showSnackbar(
-                            message = deletedNoteMsg,
-                            actionLabel = "Undo",
-                        )
-                        if (result == SnackbarResult.ActionPerformed)
-                            viewModel.onEvent(NoteListEvent.RestoreNote)
+                AnimatedVisibility(
+                    visible = note.isVisible,
+                    exit = fadeOut(tween(durationMillis = 300))
+                ) {
+                    Column {
+                        Spacer(modifier = Modifier.padding(top = 16.dp))
+                        NoteItem(note = note, modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                //--------------------(navigate to note page)--------------------//
+                            }) {
+                            viewModel.onEvent(NoteListEvent.DeleteClicked(note))
+                            scope.launch {
+                                val result = scaffoldState.snackbarHostState.showSnackbar(
+                                    message = deletedNoteMsg,
+                                    actionLabel = "Undo",
+                                )
+                                if (result == SnackbarResult.ActionPerformed)
+                                    viewModel.onEvent(NoteListEvent.RestoreNote)
+                            }
+                        }
+                        Spacer(modifier = Modifier.padding(bottom = 8.dp))
                     }
                 }
             }
         }
     }
-
 }

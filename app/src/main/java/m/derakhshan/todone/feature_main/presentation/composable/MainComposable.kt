@@ -1,6 +1,8 @@
 package m.derakhshan.todone.feature_main.presentation.composable
 
 
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -15,10 +17,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import m.derakhshan.todone.feature_home.presentation.composable.Home
 import m.derakhshan.todone.feature_main.presentation.MainNavGraph
-import m.derakhshan.todone.feature_notes.presentation.note_list.composable.Notes
+import m.derakhshan.todone.feature_notes.presentation.Notes
 import m.derakhshan.todone.feature_profile.presentation.composable.Profile
-
-
+@ExperimentalAnimationApi
+@ExperimentalFoundationApi
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
