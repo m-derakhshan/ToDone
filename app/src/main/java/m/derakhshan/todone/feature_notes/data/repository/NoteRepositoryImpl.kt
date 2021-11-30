@@ -1,6 +1,5 @@
 package m.derakhshan.todone.feature_notes.data.repository
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import m.derakhshan.todone.feature_notes.data.data_source.NoteDao
 import m.derakhshan.todone.feature_notes.domain.model.Notes

@@ -15,7 +15,7 @@ import m.derakhshan.todone.ui.theme.White
 
 
 @Composable
-fun BackSwipeGesture(offset: Float) {
+fun BackSwipeGesture(offset: Float, arcColor: Color = LightBlue) {
 
     Canvas(modifier = Modifier.fillMaxSize(), onDraw = {
         val path = Path().apply {
@@ -27,7 +27,7 @@ fun BackSwipeGesture(offset: Float) {
             canvas.drawOutline(
                 outline = Outline.Generic(path = path),
                 paint = Paint().apply {
-                    color = LightBlue
+                    color = arcColor
                     pathEffect = PathEffect.cornerPathEffect(size.height / 2)
                 }
             )
@@ -45,7 +45,8 @@ fun BackSwipeGesture(offset: Float) {
             tint = White,
             modifier = Modifier
                 .offset(
-                    x = (-50 + offset * 0.35).dp, 0.dp)
+                    x = (-50 + offset * 0.35).dp, 0.dp
+                )
                 .width(40.dp)
         )
     }

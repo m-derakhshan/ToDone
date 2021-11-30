@@ -1,5 +1,6 @@
 package m.derakhshan.todone.feature_notes.domain.model
 
+import androidx.compose.ui.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import m.derakhshan.todone.ui.theme.*
@@ -18,12 +19,34 @@ data class Notes(
 
     val timestamp: Long,
 
-    val isVisible: Boolean = false
+    val isVisible: Boolean = true
 ) {
     companion object {
         val noteColors = listOf(
-            LightBlue, LightGreen, LightRed,
-            LightOrange, LightYellow, LightPurple
+            VeryLightBlue, VeryLightGreen, VeryLightRed,
+            VeryLightOrange, VeryLightYellow, VeryLightPurple
         )
+
+        fun getLightColor(color: Color): Color {
+            return when (color) {
+                VeryLightBlue -> LightBlue
+                VeryLightGreen -> LightGreen
+                VeryLightRed -> LightRed
+                VeryLightOrange -> LightOrange
+                VeryLightYellow -> LightYellow
+                else -> LightPurple
+            }
+        }
+
+        fun getOriginalColor(color: Color): Color {
+            return when (color) {
+                VeryLightBlue -> Blue
+                VeryLightGreen -> Green
+                VeryLightRed -> Red
+                VeryLightOrange -> Orange
+                VeryLightYellow -> Yellow
+                else -> Purple
+            }
+        }
     }
 }

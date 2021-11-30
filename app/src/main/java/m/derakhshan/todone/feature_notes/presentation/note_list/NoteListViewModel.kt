@@ -1,7 +1,6 @@
 package m.derakhshan.todone.feature_notes.presentation.note_list
 
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.toArgb
@@ -17,8 +16,6 @@ import m.derakhshan.todone.feature_notes.domain.model.Notes
 import m.derakhshan.todone.feature_notes.domain.use_case.NoteUseCase
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
-import kotlin.math.log
 
 @HiltViewModel
 class NoteListViewModel @Inject constructor(
@@ -56,7 +53,7 @@ class NoteListViewModel @Inject constructor(
                             id = "$time",
                             title = "test",
                             content = "mohammad ${++counter}",
-                            color = Notes.noteColors[0].toArgb(),
+                            color = Notes.noteColors[(0..5).random()].toArgb(),
                             timestamp = time,
                             isVisible = true
                         )
