@@ -62,8 +62,8 @@ class AddEditNoteViewModel @Inject constructor(
                             useCase.insertNote(note = note)
                             //--------------------(clear screen for new note )--------------------//
                             _state.value = _state.value.copy(
-                                content = HintText(hint = "Enter title..."),
-                                title = HintText(hint = "Enter some content..."),
+                                title = HintText(hint = "Enter title..."),
+                                content = HintText(hint = "Enter some content..."),
                             )
                         }
                     }
