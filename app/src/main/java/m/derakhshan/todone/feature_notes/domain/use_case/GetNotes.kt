@@ -9,7 +9,7 @@ class GetNotes(private val repository: NoteRepository) {
 
     operator fun invoke(): Flow<List<Notes>> {
         return repository.getNotes().map {notes->
-            notes.sortedBy { it.timestamp }
+            notes.sortedByDescending{ it.timestamp }
         }
     }
 }

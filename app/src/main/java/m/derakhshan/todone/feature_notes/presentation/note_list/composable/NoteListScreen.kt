@@ -36,7 +36,6 @@ fun NoteListScreen(
     navController: NavController,
     viewModel: NoteListViewModel = hiltViewModel()
 ) {
-
     val state = viewModel.state.value
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
