@@ -79,6 +79,7 @@ fun NoteListScreen(
                             }) {
                             viewModel.onEvent(NoteListEvent.DeleteClicked(note))
                             scope.launch {
+                                scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
                                 val result = scaffoldState.snackbarHostState.showSnackbar(
                                     message = deletedNoteMsg,
                                     actionLabel = "Undo",

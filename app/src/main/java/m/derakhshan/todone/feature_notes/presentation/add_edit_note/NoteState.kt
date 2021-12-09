@@ -7,6 +7,7 @@ data class NoteState(
     val background: Color = Notes.noteColors[0],
     val title: HintText = HintText(hint = "Enter title..."),
     val content: HintText = HintText(hint = "Enter some content..."),
+    val snackBarMsg: String = "",
 )
 
 

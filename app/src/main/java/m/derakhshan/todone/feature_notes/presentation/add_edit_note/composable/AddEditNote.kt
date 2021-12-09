@@ -9,7 +9,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.NoteAdd
-import androidx.compose.material.icons.filled.Save
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,10 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import m.derakhshan.todone.core.presentation.BackSwipeGesture
-import m.derakhshan.todone.feature_authentication.presentation.main.MainEvent
 import m.derakhshan.todone.feature_notes.domain.model.Notes
 import m.derakhshan.todone.feature_notes.presentation.add_edit_note.AddEditNoteViewModel
 import m.derakhshan.todone.feature_notes.presentation.add_edit_note.NoteEvent
@@ -37,7 +34,7 @@ fun AddEditNote(
     viewModel: AddEditNoteViewModel = hiltViewModel()
 ) {
 
-    val snackBarMsg = viewModel.snackBarMsg
+
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
 
@@ -64,22 +61,19 @@ fun AddEditNote(
                 viewModel.onEvent(
                     NoteEvent.SaveNote(
                         Notes(
-                            id = System.currentTimeMillis().toString(),
                             title = state.title.text,
                             content = state.content.text,
                             color = state.background.toArgb(),
-                            timestamp = System.currentTimeMillis()
                         )
                     )
                 )
 
                 scope.launch {
-                    snackBarMsg.collectLatest {
-                        if (it.isNotBlank())
-                            scaffoldState.snackbarHostState.showSnackbar(
-                                message = it
-                            )
-                    }
+                    scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = viewModel.snackBarMsg,
+                        duration = SnackbarDuration.Short
+                    )
                 }
             }, backgroundColor = Notes.getOriginalColor(state.background)) {
                 Icon(

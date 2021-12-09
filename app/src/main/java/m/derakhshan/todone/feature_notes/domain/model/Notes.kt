@@ -9,7 +9,7 @@ import m.derakhshan.todone.ui.theme.*
 @Entity
 data class Notes(
     @PrimaryKey
-    val id: String,
+    val id: Int = -1,
 
     val title: String,
 
@@ -17,7 +17,7 @@ data class Notes(
 
     val color: Int,
 
-    val timestamp: Long,
+    val timestamp: Long = 0L,
 
     val isVisible: Boolean = true
 ) {

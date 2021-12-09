@@ -5,7 +5,7 @@ import m.derakhshan.todone.feature_notes.domain.repository.NoteRepository
 
 class GetNoteByID(private val repository: NoteRepository) {
 
-    suspend operator fun invoke(id: String): Notes? {
+    suspend operator fun invoke(id: Int): Notes? {
         return repository.getNoteById(id = id)
     }
 }

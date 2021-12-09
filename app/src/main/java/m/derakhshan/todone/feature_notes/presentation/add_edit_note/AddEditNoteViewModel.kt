@@ -1,26 +1,32 @@
 package m.derakhshan.todone.feature_notes.presentation.add_edit_note
 
+
+
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import m.derakhshan.todone.core.Setting
+import m.derakhshan.todone.feature_notes.domain.model.Notes
 import m.derakhshan.todone.feature_notes.domain.use_case.NoteUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditNoteViewModel @Inject constructor(
-    private val useCase: NoteUseCase
+    private val useCase: NoteUseCase,
+    private val setting: Setting
 ) : ViewModel() {
 
     private val _state = mutableStateOf(NoteState())
     val state: State<NoteState> = _state
 
-    private val _snackBarMsg = MutableSharedFlow<String>()
-    val snackBarMsg: SharedFlow<String> = _snackBarMsg
+
+    var snackBarMsg = ""
+
+    private var job: Job? = null
 
     fun onEvent(event: NoteEvent) {
         when (event) {
@@ -40,12 +46,52 @@ class AddEditNoteViewModel @Inject constructor(
             }
 
             is NoteEvent.SaveNote -> {
-                viewModelScope.launch {
-                    useCase.insertNote(note = event.note)
-                    _snackBarMsg.emit("Note Successfully Inserted!")
+                job?.cancel()
+                job = viewModelScope.launch {
+                    when (val validation = validateNote(event.note)) {
+                        is NoteValidate.EmptyTitle -> snackBarMsg = validation.msg
+                        is NoteValidate.EmptyContent -> snackBarMsg = validation.msg
+                        is NoteValidate.NoError -> {
+
+                            snackBarMsg = "Note Successfully Inserted!"
+
+                            //--------------------(insert note into database)--------------------//
+                            val note = event.note.copy(
+                                id = setting.lastNoteAddedId,
+                                timestamp = System.currentTimeMillis()
+                            )
+                            useCase.insertNote(note = note)
+                            //--------------------(clear screen for new note )--------------------//
+                            _state.value = _state.value.copy(
+                                content = HintText(hint = "Enter title..."),
+                                title = HintText(hint = "Enter some content..."),
+                            )
+                        }
+                    }
                 }
+
             }
         }
     }
 
+
+    private fun validateNote(note: Notes): NoteValidate {
+        return when {
+            note.title.isBlank() -> NoteValidate.EmptyTitle()
+            note.content.isBlank() -> NoteValidate.EmptyContent()
+            else -> NoteValidate.NoError()
+        }
+    }
+
+    override fun onCleared() {
+        job?.cancel()
+        super.onCleared()
+    }
+}
+
+
+private sealed class NoteValidate {
+    data class EmptyTitle(val msg: String = "Title can't left blank!") : NoteValidate()
+    data class NoError(val msg: String = "Note Is Ok!") : NoteValidate()
+    data class EmptyContent(val msg: String = "Content can't left blank!") : NoteValidate()
 }

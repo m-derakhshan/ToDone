@@ -12,6 +12,14 @@ class Setting @Inject constructor(
     private val sharedPreferences = context.getSharedPreferences("share", Context.MODE_PRIVATE)
     private val edit = sharedPreferences.edit()
 
+    val lastNoteAddedId: Int
+        get() {
+            val id = sharedPreferences.getInt("lastNoteAddedId", 0)
+            edit.putInt("lastNoteAddedId", id+1)
+            edit.apply()
+            return id
+        }
+
 
     var isUserLoggedIn: Boolean
         set(value) {
