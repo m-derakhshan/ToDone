@@ -4,6 +4,8 @@ import androidx.compose.ui.graphics.Color
 import m.derakhshan.todone.feature_notes.domain.model.Notes
 
 sealed class NoteEvent {
+    object TitleFocusChanged : NoteEvent()
+    object ContentFocusChanged : NoteEvent()
     data class ColorSelected(val color: Color) : NoteEvent()
     data class TitleChanged(val title: String) : NoteEvent()
     data class ContentChanged(val content: String) : NoteEvent()

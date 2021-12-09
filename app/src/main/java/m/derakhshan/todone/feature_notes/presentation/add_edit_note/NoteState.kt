@@ -10,7 +10,6 @@ data class NoteState(
     val snackBarMsg: String = "",
 )
 
-
 data class HintText(
     val hint: String = "",
     val text: String = ""

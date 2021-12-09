@@ -1,7 +1,6 @@
 package m.derakhshan.todone.feature_notes.presentation.add_edit_note
 
 
-
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -30,10 +29,11 @@ class AddEditNoteViewModel @Inject constructor(
 
     fun onEvent(event: NoteEvent) {
         when (event) {
-            is NoteEvent.ColorSelected ->
+            is NoteEvent.ColorSelected -> {
                 _state.value = _state.value.copy(
                     background = event.color
                 )
+            }
             is NoteEvent.TitleChanged -> {
                 _state.value = _state.value.copy(
                     title = HintText(text = event.title)
@@ -44,7 +44,6 @@ class AddEditNoteViewModel @Inject constructor(
                     content = HintText(text = event.content)
                 )
             }
-
             is NoteEvent.SaveNote -> {
                 job?.cancel()
                 job = viewModelScope.launch {
@@ -70,6 +69,18 @@ class AddEditNoteViewModel @Inject constructor(
                     }
                 }
 
+            }
+            is NoteEvent.TitleFocusChanged -> {
+                if (_state.value.title.text.isBlank())
+                    _state.value = _state.value.copy(
+                        title = HintText(hint = "Enter title...")
+                    )
+            }
+            is NoteEvent.ContentFocusChanged -> {
+                if (_state.value.content.text.isBlank())
+                    _state.value = _state.value.copy(
+                        content = HintText(hint = "Enter some content...")
+                    )
             }
         }
     }

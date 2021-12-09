@@ -1,5 +1,6 @@
 package m.derakhshan.todone.feature_notes.presentation.add_edit_note.composable
 
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
@@ -124,7 +125,9 @@ fun AddEditNote(
                 hint = state.title.hint,
                 onValueChange = { viewModel.onEvent(NoteEvent.TitleChanged(it)) },
                 textStyle = MaterialTheme.typography.h6,
-                onFocusChange = {}
+                onFocusChange = {
+                    viewModel.onEvent(NoteEvent.TitleFocusChanged)
+                }
             )
 
             HintTextField(
@@ -133,7 +136,9 @@ fun AddEditNote(
                 hint = state.content.hint,
                 onValueChange = { viewModel.onEvent(NoteEvent.ContentChanged(it)) },
                 textStyle = MaterialTheme.typography.body1,
-                onFocusChange = {}
+                onFocusChange = {
+                    viewModel.onEvent(NoteEvent.ContentFocusChanged)
+                }
             )
         }
 
