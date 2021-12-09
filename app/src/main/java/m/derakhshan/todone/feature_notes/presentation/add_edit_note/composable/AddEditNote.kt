@@ -1,6 +1,5 @@
 package m.derakhshan.todone.feature_notes.presentation.add_edit_note.composable
 
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable

@@ -2,21 +2,20 @@ package m.derakhshan.todone.feature_notes.presentation.note_list.composable
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -43,13 +42,19 @@ fun NoteListScreen(
     val scope = rememberCoroutineScope()
 
 
+    val lazyListState = rememberLazyListState()
+    val fabOffset by animateDpAsState(targetValue = viewModel.fabOffset.value,
+        animationSpec = tween(durationMillis = 500))
+
+
     Scaffold(
         modifier = modifier,
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { navController.navigate(NoteNavGraph.NoteScreen.route) },
-                backgroundColor = Blue
+                backgroundColor = Blue,
+                modifier = Modifier.offset(y = fabOffset)
             ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
@@ -61,9 +66,18 @@ fun NoteListScreen(
         scaffoldState = scaffoldState
     )
     {
+
         val deletedNoteMsg = stringResource(id = R.string.note_deleted)
+
+        //--------------------(hide or showing FAB after scrolling lazy column)--------------------//
+        if (lazyListState.isScrollingUp())
+            viewModel.onEvent(NoteListEvent.ScrollUp)
+        else viewModel.onEvent(NoteListEvent.ScrollDown)
+
+
         LazyColumn(
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(horizontal = 16.dp),
+            state = lazyListState
         ) {
             items(state.notes) { note ->
                 AnimatedVisibility(
@@ -94,4 +108,23 @@ fun NoteListScreen(
             }
         }
     }
+}
+
+
+@Composable
+private fun LazyListState.isScrollingUp(): Boolean {
+    var previousIndex by remember(this) { mutableStateOf(firstVisibleItemIndex) }
+    var previousScrollOffset by remember(this) { mutableStateOf(firstVisibleItemScrollOffset) }
+    return remember(this) {
+        derivedStateOf {
+            if (previousIndex != firstVisibleItemIndex) {
+                previousIndex > firstVisibleItemIndex
+            } else {
+                previousScrollOffset >= firstVisibleItemScrollOffset
+            }.also {
+                previousIndex = firstVisibleItemIndex
+                previousScrollOffset = firstVisibleItemScrollOffset
+            }
+        }
+    }.value
 }

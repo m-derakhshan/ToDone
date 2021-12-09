@@ -3,6 +3,8 @@ package m.derakhshan.todone.feature_notes.presentation.note_list
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +26,9 @@ class NoteListViewModel @Inject constructor(
 
     private val _state = mutableStateOf(NoteListState())
     val state: State<NoteListState> = _state
+
+    private val _fabOffset = mutableStateOf(0.dp)
+    val fabOffset: State<Dp> = _fabOffset
 
     private var recentlyDeletedNote: Notes? = null
 
@@ -65,6 +70,9 @@ class NoteListViewModel @Inject constructor(
                     }
                 }
             }
+
+            is NoteListEvent.ScrollUp -> _fabOffset.value = 0.dp
+            is NoteListEvent.ScrollDown -> _fabOffset.value = 100.dp
         }
     }
 
